@@ -23,9 +23,9 @@ public class RefreshToken {
     private Long ttl;
 
     @Builder
-    public RefreshToken(String refreshToken, String email, Long ttl) {
+    public RefreshToken(String refreshToken, String authKey, Long ttl) {
         this.refreshToken = refreshToken;
-        this.authKey = email;
+        this.authKey = authKey;
         this.ttl = ttl;
     }
 }

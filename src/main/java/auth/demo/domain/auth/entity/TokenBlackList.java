@@ -23,9 +23,9 @@ public class TokenBlackList {
     private Long ttl;
 
     @Builder
-    public TokenBlackList(String accessToken, String email, Long ttl) {
+    public TokenBlackList(String accessToken, String authKey, Long ttl) {
         this.accessToken = accessToken;
-        this.authKey = email;
+        this.authKey = authKey;
         this.ttl = ttl;
     }
 }

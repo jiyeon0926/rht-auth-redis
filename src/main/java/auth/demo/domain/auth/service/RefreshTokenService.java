@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
@@ -30,8 +32,11 @@ public class RefreshTokenService {
     }
 
     public void deleteRefreshToken(String email) {
-        refreshTokenRepository.findByAuthKey(email)
-                .ifPresent(token -> refreshTokenRepository.delete(token));
+        Optional<RefreshToken> authKey = refreshTokenRepository.findByAuthKey(email);
+
+        if (authKey.isPresent()) {
+            refreshTokenRepository.delete(authKey.get());
+        }
     }
 
     public void validRefreshToken(String refreshToken) {
