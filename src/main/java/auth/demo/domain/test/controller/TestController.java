@@ -17,4 +17,9 @@ public class TestController {
     public ResponseEntity<String> adminCheck() {
         return new ResponseEntity<>("관리자만 접근할 수 있습니다.", HttpStatus.OK);
     }
+
+    @GetMapping("/users/check")
+    public ResponseEntity<String> userCheck() {
+        return new ResponseEntity<>("사용자와 관리자 모두 접근할 수 있습니다.", HttpStatus.OK);
+    }
 }

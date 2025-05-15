@@ -1,13 +1,14 @@
 package auth.demo.global.auth;
 
 import auth.demo.domain.user.entity.User;
+import auth.demo.global.common.enums.UserRole;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,7 +18,9 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        UserRole role = user.getRole();
+
+        return new ArrayList<>(role.getAuthorities());
     }
 
     @Override
