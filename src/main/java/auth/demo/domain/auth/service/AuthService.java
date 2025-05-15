@@ -1,6 +1,7 @@
 package auth.demo.domain.auth.service;
 
 import auth.demo.domain.auth.dto.LoginResDto;
+import auth.demo.domain.auth.dto.TokenDto;
 import auth.demo.domain.user.entity.User;
 import auth.demo.domain.user.repository.UserRepository;
 import auth.demo.global.auth.jwt.JwtProvider;
@@ -10,10 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +46,27 @@ public class AuthService {
         String refreshToken = jwtProvider.generateRefreshToken(authentication);
 
         return new LoginResDto(AuthenticationScheme.BEARER.getName(), accessToken, refreshToken);
+    }
+
+    // Refresh Token을 사용해 Access Token 재발급
+    public TokenDto refresh(String refreshToken) {
+        refreshTokenService.validRefreshToken(refreshToken); // Refresh Token이 유효한지 확인
+
+        String email = jwtProvider.getUsername(refreshToken);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."));
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(email, null, List.of(new SimpleGrantedAuthority(user.getRole().name())));
+
+        String accessToken = jwtProvider.generateAccessToken(authenticationToken);
+
+        // 기존 Refresh Token 삭제, 새 Refresh Token 발급 및 저장
+        refreshTokenService.deleteRefreshToken(email);
+        String newRefreshToken = jwtProvider.generateRefreshToken(authenticationToken);
+        refreshTokenService.saveRefreshToken(newRefreshToken, email);
+
+        return new TokenDto(accessToken, newRefreshToken);
     }
 
     private void validPassword(String rawPassword, String encodedPassword) {
