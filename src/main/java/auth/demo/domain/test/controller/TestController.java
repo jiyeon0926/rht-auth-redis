@@ -1,4 +1,4 @@
-package auth.demo.test.controller;
+package auth.demo.domain.test.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
