@@ -48,6 +48,13 @@ public class AuthService {
         return new LoginResDto(AuthenticationScheme.BEARER.getName(), accessToken, refreshToken);
     }
 
+    public void logout(String accessToken) {
+        String email = jwtProvider.getUsername(accessToken);
+
+        tokenBlackListService.saveAccessToken(accessToken, email);
+        refreshTokenService.deleteRefreshToken(email);
+    }
+
     // Refresh Token을 사용해 Access Token 재발급
     public TokenDto refresh(String refreshToken) {
         refreshTokenService.validRefreshToken(refreshToken); // Refresh Token이 유효한지 확인
