@@ -15,17 +15,17 @@ import java.util.concurrent.TimeUnit;
 public class RefreshToken {
 
     @Id
-    private String refreshToken;
-
     private String authKey;
+
+    private String refreshToken;
 
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long ttl;
 
     @Builder
-    public RefreshToken(String refreshToken, String authKey, Long ttl) {
-        this.refreshToken = refreshToken;
+    public RefreshToken(String authKey, String refreshToken, Long ttl) {
         this.authKey = authKey;
+        this.refreshToken = refreshToken;
         this.ttl = ttl;
     }
 }

@@ -57,9 +57,9 @@ public class AuthService {
 
     // Refresh Token을 사용해 Access Token 재발급
     public TokenDto refresh(String refreshToken) {
-        refreshTokenService.validRefreshToken(refreshToken); // Refresh Token이 유효한지 확인
-
         String email = jwtProvider.getUsername(refreshToken);
+        refreshTokenService.validRefreshToken(email); // Key(email) 조회하여 검증
+
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."));
 

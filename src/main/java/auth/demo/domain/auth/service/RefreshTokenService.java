@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
@@ -32,15 +30,12 @@ public class RefreshTokenService {
     }
 
     public void deleteRefreshToken(String email) {
-        Optional<RefreshToken> authKey = refreshTokenRepository.findByAuthKey(email);
-
-        if (authKey.isPresent()) {
-            refreshTokenRepository.delete(authKey.get());
-        }
+        refreshTokenRepository.findByAuthKey(email)
+                .ifPresent(refreshTokenRepository::delete);
     }
 
-    public void validRefreshToken(String refreshToken) {
-        refreshTokenRepository.findByRefreshToken(refreshToken)
+    public void validRefreshToken(String email) {
+        refreshTokenRepository.findByAuthKey(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token 입니다."));
     }
 }
