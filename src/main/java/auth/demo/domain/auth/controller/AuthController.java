@@ -7,6 +7,7 @@ import auth.demo.domain.auth.dto.TokenDto;
 import auth.demo.domain.auth.service.AuthService;
 import auth.demo.global.common.enums.AuthenticationScheme;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResDto> login(@RequestBody LoginReqDto loginReqDto) {
+    public ResponseEntity<LoginResDto> login(@Valid @RequestBody LoginReqDto loginReqDto) {
         LoginResDto login = authService.login(loginReqDto.getEmail(), loginReqDto.getPassword());
 
         return new ResponseEntity<>(login, HttpStatus.OK);
