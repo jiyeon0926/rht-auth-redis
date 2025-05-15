@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TokenBlackListRepository extends CrudRepository<TokenBlackList, Long> {
+public interface TokenBlackListRepository extends CrudRepository<TokenBlackList, String> {
 
     Optional<TokenBlackList> findByAccessToken(String accessToken);
 }

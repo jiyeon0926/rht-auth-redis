@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
-import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class TokenBlackList {
 
     @Id
-    @Indexed
     private String accessToken;
 
     private String authKey;
@@ -25,9 +23,9 @@ public class TokenBlackList {
     private Long ttl;
 
     @Builder
-    public TokenBlackList(String accessToken, String authKey, Long ttl) {
+    public TokenBlackList(String accessToken, String email, Long ttl) {
         this.accessToken = accessToken;
-        this.authKey = authKey;
+        this.authKey = email;
         this.ttl = ttl;
     }
 }

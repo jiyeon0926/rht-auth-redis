@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
-import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class RefreshToken {
 
     @Id
-    @Indexed
     private String refreshToken;
 
     private String authKey;
@@ -25,9 +23,9 @@ public class RefreshToken {
     private Long ttl;
 
     @Builder
-    public RefreshToken(String refreshToken, String authKey, Long ttl) {
+    public RefreshToken(String refreshToken, String email, Long ttl) {
         this.refreshToken = refreshToken;
-        this.authKey = authKey;
+        this.authKey = email;
         this.ttl = ttl;
     }
 }
