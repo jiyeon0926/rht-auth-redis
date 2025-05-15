@@ -4,14 +4,14 @@ import auth.demo.domain.user.dto.SignupResDto;
 import auth.demo.domain.user.entity.User;
 import auth.demo.domain.user.repository.UserRepository;
 import auth.demo.global.common.enums.UserRole;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-@Getter
+@Service
 @RequiredArgsConstructor
 public class UserService {
 
