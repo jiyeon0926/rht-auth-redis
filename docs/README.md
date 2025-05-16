@@ -42,7 +42,7 @@
   - Key : 사용자 이메일
     -  ex) refreshToken:email@naver.com
   - Value : Refresh Token과 만료 시간을 함께 저장
-- Token 재발급 시, 저장된 Refresh Token을 요청 Body에 담아 전송하 새로운 Access Token과 Refresh Token을 함께 발급
+- Token 재발급 시, 저장된 Refresh Token을 요청 Body에 담아 전송하여 새로운 Access Token과 Refresh Token을 함께 발급
   - Access Token 뿐만 아니라, Refresh Token도 갱신함으로써 보안을 강화할 수 있음
  
 ### Blacklist
