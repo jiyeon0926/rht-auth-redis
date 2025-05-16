@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
 
         return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
+                .status(HttpStatus.FORBIDDEN)
                 .body(e.getMessage());
     }
 
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<String> handleAuthorizationDeniedException(AuthorizationDeniedException e) {
 
         return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
+                .status(HttpStatus.FORBIDDEN)
                 .body(e.getMessage());
     }
 
