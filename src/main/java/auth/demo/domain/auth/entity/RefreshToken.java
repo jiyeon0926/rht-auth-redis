@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class RefreshToken {
 
     @Id
-    private String authKey;
+    private String authKey; // 이메일(Key)
 
     private String refreshToken;
 

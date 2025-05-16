@@ -38,6 +38,7 @@ public class JwtProvider {
     private final UserRepository userRepository;
     private final RefreshTokenService refreshTokenService;
 
+    // Refresh 토큰을 생성하고, 저장
     public String generateRefreshToken(Authentication authentication) {
         String username = authentication.getName();
         String refreshToken = generateRefreshTokenBy(username);
@@ -73,6 +74,7 @@ public class JwtProvider {
         return false;
     }
 
+    // Access 토큰과 Refresh 토큰을 Claims 객체에 있는 role Key 존재 여부를 통해 구분
     public boolean validAccessToken(String token) {
         Claims claims = getClaims(token);
 
@@ -91,6 +93,7 @@ public class JwtProvider {
                 .getPayload();
     }
 
+    // 토큰 재발급 용도이기 때문에 Claims 객체에 role 정보 안 넣음
     private String generateRefreshTokenBy(String email) {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + refreshExpiryMillis);

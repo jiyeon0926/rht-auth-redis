@@ -21,8 +21,8 @@ public class RefreshTokenService {
 
     public void saveRefreshToken(String refreshToken, String email) {
         RefreshToken refresh = RefreshToken.builder()
-                .refreshToken(refreshToken)
                 .authKey(email)
+                .refreshToken(refreshToken)
                 .ttl(refreshExpiryMillis)
                 .build();
 

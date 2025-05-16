@@ -16,12 +16,14 @@ public class TokenBlackListService {
     private final TokenBlackListRepository tokenBlackListRepository;
     private final JwtProvider jwtProvider;
 
+    // Access 토큰을 블랙리스트에 저장하여 관리
     public void saveAccessToken(String accessToken, String email) {
         long now = new Date().getTime();
         Claims claims = jwtProvider.getClaims(accessToken);
         Date expiration = claims.getExpiration();
         long remainExpiration = expiration.getTime() - now;
 
+        // Access 토큰이 아직 유효하다면 블랙리스트에 저장
         if (remainExpiration > 0) {
             TokenBlackList blackList = TokenBlackList.builder()
                     .accessToken(accessToken)

@@ -35,19 +35,21 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."));
 
-        validPassword(password, user.getPassword());
+        validPassword(password, user.getPassword()); // 비밀번호 검증
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password));
-
+        // 인증된 객체를 SecurityContext에 저장
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(email, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        // 인증 정보를 기반으로 JWT 생성
         String accessToken = jwtProvider.generateAccessToken(authentication);
         String refreshToken = jwtProvider.generateRefreshToken(authentication);
 
         return new LoginResDto(AuthenticationScheme.BEARER.getName(), accessToken, refreshToken);
     }
 
+    // 로그아웃
     public void logout(String accessToken) {
         String email = jwtProvider.getUsername(accessToken);
 
@@ -55,7 +57,7 @@ public class AuthService {
         refreshTokenService.deleteRefreshToken(email);
     }
 
-    // Refresh Token을 사용해 Access Token 재발급
+    // Refresh 토큰을 사용해 토큰 재발급
     public TokenDto refresh(String refreshToken) {
         String email = jwtProvider.getUsername(refreshToken);
         refreshTokenService.validRefreshToken(email); // Key(email) 조회하여 검증
@@ -68,7 +70,7 @@ public class AuthService {
 
         String accessToken = jwtProvider.generateAccessToken(authenticationToken);
 
-        // 기존 Refresh Token 삭제, 새 Refresh Token 발급 및 저장
+        // 기존 Refresh 토큰 삭제, 새 Refresh 토큰 발급 및 저장
         refreshTokenService.deleteRefreshToken(email);
         String newRefreshToken = jwtProvider.generateRefreshToken(authenticationToken);
         refreshTokenService.saveRefreshToken(newRefreshToken, email);

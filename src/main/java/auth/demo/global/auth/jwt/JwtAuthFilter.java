@@ -38,8 +38,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private void authenticate(HttpServletRequest request) {
         String token = getTokenFromRequest(request);
 
+        // 토큰 검증
         if (token != null) {
-            if (!jwtProvider.validToken(token) || !jwtProvider.validAccessToken(token) || tokenBlackListService.validBlackList(token)) {
+            if (!jwtProvider.validToken(token)
+                    || !jwtProvider.validAccessToken(token) // Refresh 토큰으로 인증 불가
+                    || tokenBlackListService.validBlackList(token)) {
                 return;
             }
 
@@ -50,6 +53,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
     }
 
+    // Authorization 헤더가 있고, "Bearer"로 시작하면 Prefix 부분만 제거해 토큰 반환
     private String getTokenFromRequest(HttpServletRequest request) {
         final String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String headerPrefix = AuthenticationScheme.generateType(AuthenticationScheme.BEARER);

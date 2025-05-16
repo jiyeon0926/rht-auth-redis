@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
 public class TokenBlackList {
 
     @Id
-    private String accessToken;
+    private String accessToken; // Key
 
-    private String authKey;
+    private String authKey; // 이메일
 
     @TimeToLive(unit = TimeUnit.MILLISECONDS)
     private Long ttl;
