@@ -1,3 +1,11 @@
+# 🛠️ 기술 스택
+- Java 21
+- Spring Boot 3.4.5 Version
+- Spring Security
+- JWT
+- Redis
+- MySQL
+
 # 💡 기능
 - 일반 사용자 회원가입
 - 관리자 회원가입
@@ -19,11 +27,27 @@
   
   |테스트|Method|URL|상태코드|응답 성공 메시지|
   |---|---|---|---|---|
-  |인증 테스트|GET|/auth/check|200 OK <br> 401 Unauthorized|인증된 사용자입니다.|
-  |사용자 권한 테스트|GET|/users/check|200 OK <br> 401 Unauthorized <br> 403 Forbidden|사용자와 관리자 모두 접근할 수 있습니다.|
-  |관리자 권한 테스트|GET|/admins/check|200 OK <br> 401 Unauthorized <br> 403 Forbidden|관리자만 접근할 수 있습니다.|
+  |인증|GET|/auth/check|200 OK <br> 401 Unauthorized|인증된 사용자입니다.|
+  |사용자 권한|GET|/users/check|200 OK <br> 401 Unauthorized <br> 403 Forbidden|사용자와 관리자 모두 접근할 수 있습니다.|
+  |관리자 권한|GET|/admins/check|200 OK <br> 401 Unauthorized <br> 403 Forbidden|관리자만 접근할 수 있습니다.|
 
 </details>
+
+## 3️⃣ Token 관리
+- Redis에 저장하여 관리
+- Refresh Token과 Access Token을 분리하여 저장
+
+### Refresh Token
+- 로그인할 때, Refresh Token을 Redis에 저장
+  - Key : 사용자 이메일
+    -  ex) refreshToken:email@naver.com
+  - Value : Refresh Token과 만료 시간을 함께 저장
+- Token 재발급 시, 저장된 Refresh Token을 요청 Body에 담아 전송하 새로운 Access Token과 Refresh Token을 함께 발급
+  - Access Token 뿐만 아니라, Refresh Token도 갱신함으로써 보안을 강화할 수 있음
+ 
+### Blacklist
+- 로그아웃 시, Access Token을 Blacklist로 Redis에 저장
+- TTL로 지정한 시간이 지나면 Redis가 해당 데이터를 자동으로 삭제
 
 # 📁 프로젝트 구조
 <details>
