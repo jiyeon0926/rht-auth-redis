@@ -60,7 +60,7 @@ public class AuthService {
     // Refresh 토큰을 사용해 토큰 재발급
     public TokenDto refresh(String refreshToken) {
         String email = jwtProvider.getUsername(refreshToken);
-        refreshTokenService.validRefreshToken(email); // Key(email) 조회하여 검증
+        refreshTokenService.validRefreshToken(email, refreshToken); // Key(email) 조회하여 검증
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."));

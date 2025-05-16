@@ -34,8 +34,12 @@ public class RefreshTokenService {
                 .ifPresent(refreshTokenRepository::delete);
     }
 
-    public void validRefreshToken(String email) {
-        refreshTokenRepository.findByAuthKey(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token 입니다."));
+    public void validRefreshToken(String email, String refreshToken) {
+        RefreshToken token = refreshTokenRepository.findByAuthKey(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh Token이 존재하지 않습니다."));
+
+        if (!token.getRefreshToken().equals(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token입니다.");
+        }
     }
 }
