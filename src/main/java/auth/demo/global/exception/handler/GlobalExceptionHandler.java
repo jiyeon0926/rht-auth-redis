@@ -2,6 +2,7 @@ package auth.demo.global.exception.handler;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -65,7 +66,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
 
         return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(e.getMessage());
     }
 
@@ -79,12 +80,26 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(JwtException.class)
     protected ResponseEntity<String> handleJwtException(JwtException e) {
-        HttpStatus httpStatus = e instanceof ExpiredJwtException
-                ? HttpStatus.UNAUTHORIZED
-                : HttpStatus.FORBIDDEN;
+        HttpStatus httpStatus;
+
+        if (e instanceof ExpiredJwtException) { // JWT 토큰 만료
+            httpStatus = HttpStatus.UNAUTHORIZED;
+        } else if (e instanceof MalformedJwtException) { // 잘못된 JWT 토큰
+            httpStatus = HttpStatus.BAD_REQUEST;
+        } else {
+            httpStatus = HttpStatus.UNAUTHORIZED;
+        }
 
         return ResponseEntity
                 .status(httpStatus)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentExceptions(IllegalArgumentException e) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 
