@@ -53,7 +53,7 @@ public class AuthService {
     public void logout(String accessToken) {
         String email = jwtProvider.getUsername(accessToken);
 
-        tokenBlackListService.saveAccessToken(accessToken, email);
+        tokenBlackListService.saveAccessToken(accessToken);
         refreshTokenService.deleteRefreshToken(email);
     }
 
