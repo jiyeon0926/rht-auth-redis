@@ -79,7 +79,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(JwtException.class)
     protected ResponseEntity<String> handleJwtException(JwtException e) {
-        HttpStatus httpStatus = e instanceof ExpiredJwtException ? HttpStatus.UNAUTHORIZED : HttpStatus.FORBIDDEN;
+        HttpStatus httpStatus = e instanceof ExpiredJwtException
+                ? HttpStatus.UNAUTHORIZED
+                : HttpStatus.FORBIDDEN;
 
         return ResponseEntity
                 .status(httpStatus)

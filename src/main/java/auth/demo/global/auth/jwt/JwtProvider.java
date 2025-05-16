@@ -69,6 +69,8 @@ public class JwtProvider {
             log.error("JWT 토큰이 만료되었습니다.: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
             log.error("지원되지 않는 JWT 토큰입니다.: {}", e.getMessage());
+        } catch (SignatureException e) {
+            log.error("유효하지 않은 JWT 서명입니다.: {}", e.getMessage());
         }
 
         return false;
