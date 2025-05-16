@@ -1,4 +1,7 @@
 # 📁 프로젝트 구조
+<details>
+  <summary>프로젝트 구조</summary>
+    
 ```
 ─src
     ├─main
@@ -97,3 +100,12 @@
                         DemoApplicationTests.java
 
 ```
+</details>
+
+# 🧩 설계
+
+## 1️⃣ ERD
+![rht-auth-redis](https://github.com/user-attachments/assets/3da24304-c514-41a6-90ee-58471b7b018f)
+
+## 2️⃣ API 명세서
+👉 [Notion API 명세서](https://www.notion.so/JWT-1f2e22e7e413805ab06ac854faa19a8b)
