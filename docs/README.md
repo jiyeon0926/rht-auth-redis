@@ -1,6 +1,7 @@
 # 🛠️ 기술 스택
 - Java 21
 - Spring Boot 3.4.5 Version
+- JPA
 - Spring Security
 - JWT
 - Redis
