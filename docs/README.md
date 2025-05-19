@@ -49,7 +49,9 @@
 ### Blacklist
 - 로그아웃 시, Access Token을 Blacklist로 Redis에 저장
   - Access Token이 유효한 상태에서 탈취될 가능성을 생각
-  - 보안 강화
+  - 보안 강화 목적
+  - Key : Access Token
+  - Value : 남은 만료 시간
 - TTL로 지정한 시간이 지나면 Redis가 해당 데이터를 자동으로 삭제
 
 # 📁 프로젝트 구조
