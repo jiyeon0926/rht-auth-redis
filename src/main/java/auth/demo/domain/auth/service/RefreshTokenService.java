@@ -2,9 +2,9 @@ package auth.demo.domain.auth.service;
 
 import auth.demo.domain.auth.entity.RefreshToken;
 import auth.demo.domain.auth.repository.RefreshTokenRepository;
-import lombok.Getter;
+import auth.demo.global.auth.jwt.JwtProvider;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,17 +13,17 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    @Getter
-    @Value("${jwt.refresh-expiry-millis}")
-    private long refreshExpiryMillis;
-
     private final RefreshTokenRepository refreshTokenRepository;
+    private final JwtProvider jwtProvider;
 
     public void saveRefreshToken(String refreshToken, String email) {
+        Claims claims = jwtProvider.getClaims(refreshToken);
+        long expiration = claims.getExpiration().getTime();
+
         RefreshToken refresh = RefreshToken.builder()
                 .authKey(email)
                 .refreshToken(refreshToken)
-                .ttl(refreshExpiryMillis)
+                .ttl(expiration)
                 .build();
 
         refreshTokenRepository.save(refresh);

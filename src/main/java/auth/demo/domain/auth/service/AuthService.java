@@ -45,6 +45,7 @@ public class AuthService {
         // 인증 정보를 기반으로 JWT 생성
         String accessToken = jwtProvider.generateAccessToken(authentication);
         String refreshToken = jwtProvider.generateRefreshToken(authentication);
+        refreshTokenService.saveRefreshToken(refreshToken, email);
 
         return new LoginResDto(AuthenticationScheme.BEARER.getName(), accessToken, refreshToken);
     }

@@ -38,14 +38,11 @@ public class JwtProvider {
     private final UserRepository userRepository;
     private final RefreshTokenService refreshTokenService;
 
-    // Refresh 토큰을 생성하고, 저장
+    // Refresh 토큰을 생성
     public String generateRefreshToken(Authentication authentication) {
         String username = authentication.getName();
-        String refreshToken = generateRefreshTokenBy(username);
 
-        refreshTokenService.saveRefreshToken(refreshToken, username);
-
-        return refreshToken;
+        return generateRefreshTokenBy(username);
     }
 
     public String generateAccessToken(Authentication authentication) {
