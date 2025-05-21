@@ -42,7 +42,8 @@
 - 로그인할 때, Refresh Token을 Redis에 저장
   - Key : 사용자 이메일
     -  ex) refreshToken:email@naver.com
-  - Value : Refresh Token과 만료 시간을 함께 저장
+  - Value : Refresh Token
+  - TTL : Refresh Token 만료 시간
 - Token 재발급 시, 저장된 Refresh Token을 요청 Body에 담아 전송하여 새로운 Access Token과 Refresh Token을 함께 발급
   - Access Token 뿐만 아니라, Refresh Token도 갱신함으로써 보안을 강화할 수 있음
 - 로그아웃 시, Refresh Token 삭제
@@ -52,7 +53,8 @@
   - 보안 강화 및 인증 무력화 목적
   - Access Token이 유효한 상태에서 탈취될 가능성을 생각
   - Key : Access Token
-  - Value : 남은 만료 시간
+  - Value : x
+  - TTL : 남은 Access Token 만료 시간
 - TTL로 지정한 시간이 지나면 Redis가 해당 데이터를 자동으로 삭제
 
 # 📁 프로젝트 구조
