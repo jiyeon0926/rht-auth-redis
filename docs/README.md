@@ -159,3 +159,11 @@
 
 ```
 </details>
+
+# 🤔 고민
+
+## 1️⃣ Access Token을 Redis에 저장할 경우 (Blacklist)
+로그아웃된 유효한 Access Token을 즉시 무력화 시킬 수 있다. <br>
+하지만 TTL로 지정한 시간이 지나기 전까지 Redis에 남아있기 때문에 사용자 수가 많아지면 메모리 사용량이 커지고, 성능 이슈가 발생할 수도 있다. <br>
+Blacklist 방법을 사용하지 않으려면 Access Token의 유효 시간을 최대한 짧게 설정하고, 토큰 재발급을 받도록 유도하는 방법을 사용해야 한다.
+- ex) Access Token : 10 ~ 15분
