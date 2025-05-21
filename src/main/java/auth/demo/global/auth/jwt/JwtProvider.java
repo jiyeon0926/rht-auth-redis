@@ -1,6 +1,5 @@
 package auth.demo.global.auth.jwt;
 
-import auth.demo.domain.auth.service.RefreshTokenService;
 import auth.demo.domain.user.entity.User;
 import auth.demo.domain.user.repository.UserRepository;
 import io.jsonwebtoken.*;
@@ -36,7 +35,6 @@ public class JwtProvider {
     private long refreshExpiryMillis;
 
     private final UserRepository userRepository;
-    private final RefreshTokenService refreshTokenService;
 
     // Refresh 토큰을 생성
     public String generateRefreshToken(Authentication authentication) {
