@@ -49,8 +49,8 @@
  
 ### Blacklist
 - 로그아웃 시, Access Token을 Blacklist로 Redis에 저장
+  - 보안 강화 및 인증 무력화 목적
   - Access Token이 유효한 상태에서 탈취될 가능성을 생각
-  - 보안 강화 목적
   - Key : Access Token
   - Value : 남은 만료 시간
 - TTL로 지정한 시간이 지나면 Redis가 해당 데이터를 자동으로 삭제
@@ -159,3 +159,16 @@
 
 ```
 </details>
+
+# 🤔 고민
+
+## 1️⃣ Access Token을 Redis에 저장할 경우 (Blacklist)
+로그아웃된 유효한 Access Token을 즉시 무력화 시킬 수 있다. <br>
+하지만 TTL로 지정한 시간이 지나기 전까지 Redis에 남아있기 때문에 사용자 수가 많아지면 메모리 사용량이 커지고, 성능 이슈가 발생할 수도 있다. <br>
+Blacklist 방법을 사용하지 않으려면 Access Token의 유효 시간을 최대한 짧게 설정하고, 토큰을 재발급 받도록 유도하는 방법을 사용해야 한다.
+- ex) Access Token : 10 ~ 15분
+
+## 2️⃣ Refresh Token만 Redis에 저장할 경우
+Access Token이 만료됐을 때, 새로운 Access Token을 재발급 받기 위해 Refresh Token을 저장하여 관리한다. <br>
+Blacklist를 사용하지 않고, 로그아웃 기능을 구현하기 위해서는 Access Token을 재발급 받지 못하도록 Refresh Token을 삭제한다. <br>
+Refresh Token을 삭제해도 이미 발급된 Access Token이 유효할 수 있기 때문에 탈취 당하지 않도록 즉시 무력화 시키려면 Blacklist 방법을 고려할 수 있다.
