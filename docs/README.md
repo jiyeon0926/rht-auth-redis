@@ -36,7 +36,6 @@
 
 ## 3️⃣ Token 관리
 - Redis에 저장하여 관리
-- Refresh Token과 Access Token을 분리하여 저장
 
 ### Refresh Token
 - 로그인할 때, Refresh Token을 Redis에 저장
@@ -174,3 +173,8 @@ Blacklist 방법을 사용하지 않으려면 Access Token의 유효 시간을 �
 Access Token이 만료됐을 때, 새로운 Access Token을 재발급 받기 위해 Refresh Token을 저장하여 관리한다. <br>
 Blacklist를 사용하지 않고, 로그아웃 기능을 구현하기 위해서는 Access Token을 재발급 받지 못하도록 Refresh Token을 삭제한다. <br>
 Refresh Token을 삭제해도 이미 발급된 Access Token이 유효할 수 있기 때문에 탈취 당하지 않도록 즉시 무력화 시키려면 Blacklist 방법을 고려할 수 있다.
+
+# 🏷️ Version
+- [V1. CrudRepository](https://github.com/jiyeon0926/rht-auth-redis-crud)
+- [V2. RedisTemplate](https://github.com/jiyeon0926/rht-auth-redis-template)
+- [V3. RedissonClient](https://github.com/jiyeon0926/rht-auth-redisson)
